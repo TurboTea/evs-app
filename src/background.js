@@ -21,7 +21,7 @@ async function createWindow() {
     'accept-first-mouse': true,
     'title-bar-style': 'hidden',
     // icon: __dirname + '\\icon.png',
-    title:"最会做鸡的男人",
+    title:"方正进销存系统",
     icon: path.join(__static, 'icon.png'),
     webPreferences: {
       // Use pluginOptions.nodeIntegration, leave this alone

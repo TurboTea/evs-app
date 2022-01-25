@@ -10,6 +10,12 @@ import AddProductToCategory from '../views/category/AddProductToCategory.vue'
 import UnitList from '../views/unit/UnitList.vue'
 import AddNewUnit from '../views/unit/AddNewUnit.vue'
 import EditUnit from '../views/unit/EditUnit.vue'
+import CustomerList from '../views/customer/CustomerList.vue'
+import AddNewCustomer from '../views/customer/AddNewCustomer.vue'
+import EditCustomer from '../views/customer/EditCustomer.vue'
+import SupplierList from '../views/supplier/SupplierList.vue'
+import AddNewSupplier from '../views/supplier/AddNewSupplier.vue'
+import EditSupplier from '../views/supplier/EditSupplier.vue'
 import AddNewProduct from '../views/products/AddNewProduct.vue'
 import EditProduct from '../views/products/EditProduct.vue'
 import PurchaseList from '../views/inout/PurchaseList.vue'
@@ -86,6 +92,38 @@ const routes = [
     name: 'addNewUnit',
     component: AddNewUnit
   },
+  {
+    path: '/customerList',
+    name: 'customerList',
+    component: CustomerList
+  },
+  {
+    path: '/customer/:id',
+    name: 'editCustomer',
+    component: EditCustomer
+  },
+  {
+    path: '/addNewCustomer',
+    name: 'addNewCustomer',
+    component: AddNewCustomer
+  },
+  {
+    path: '/supplierList',
+    name: 'supplierList',
+    component: SupplierList
+  },
+  {
+    path: '/supplier/:id',
+    name: 'editSupplier',
+    component: EditSupplier
+  },
+  {
+    path: '/addNewSupplier',
+    name: 'addNewSupplier',
+    component: AddNewSupplier
+  },
+
+
   {
     path:'/addNewProduct',
     name: 'addNewProduct',

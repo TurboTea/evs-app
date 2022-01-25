@@ -113,8 +113,8 @@ export default {
       });
     },
     changeNumber(value) {
-      if (this.unit == "单位") return;
-      if (this.decimalAllowed == 0 && value % 1 != 0) {
+      if (this.unit === "单位") return;
+      if (this.decimalAllowed === 0 && value % 1 !== 0) {
         this.checkNumberNotice = this.unit + "不支持小数";
         this.validateStatus = "error";
       }

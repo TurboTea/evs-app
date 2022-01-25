@@ -29,12 +29,158 @@ export const initTable = () => {
       db.run('CREATE TABLE IF NOT EXISTS unit (id INTEGER, unitName varchar(64) UNIQUE,decimalAllowed int, PRIMARY KEY(id AUTOINCREMENT))')
       db.run('CREATE TABLE IF NOT EXISTS category ( id	INTEGER, categoryName	varchar(64) UNIQUE, PRIMARY KEY(id AUTOINCREMENT) )')
       db.run('CREATE TABLE IF NOT EXISTS categoryProduct (id INTEGER, categoryId int,productId int, PRIMARY KEY(id AUTOINCREMENT))')
-      db.run('CREATE TABLE IF NOT EXISTS purchase (id INTEGER, productId int, numberRecived decimal(10,2), costs decimal(10,2), purchaseDate INTEGER, PRIMARY KEY(id AUTOINCREMENT))')
-      db.run('CREATE TABLE IF NOT EXISTS orders (id INTEGER, productId int, numberConsumed decimal(10,2), "avgPrice"	decimal(10, 2), orderDate INTEGER, PRIMARY KEY(id AUTOINCREMENT))')
+      db.run('CREATE TABLE IF NOT EXISTS purchase (id INTEGER, supplierId int ,productId int, numberRecived decimal(10,2), costs decimal(10,2), purchaseDate INTEGER, PRIMARY KEY(id AUTOINCREMENT))')
+      db.run('CREATE TABLE IF NOT EXISTS orders (id INTEGER, customerId int ,productId int, numberConsumed decimal(10,2), "avgPrice"	decimal(10, 2), orderDate INTEGER, PRIMARY KEY(id AUTOINCREMENT))')
+      db.run('CREATE TABLE IF NOT EXISTS customer(id INTEGER, customerName varchar(64) UNIQUE, PRIMARY KEY(id AUTOINCREMENT))')
+      db.run('CREATE TABLE IF NOT EXISTS supplier(id INTEGER, supplierName varchar(64) UNIQUE, PRIMARY KEY(id AUTOINCREMENT))')
       resolve()
     })
   })
 }
+
+
+export const queryAllSupplier = () => {
+  return new Promise((resolve, reject) => {
+    let db = conn()
+    db.all('select id, supplierName from supplier', (err, rows) => {
+      if (err) reject(err)
+      resolve(rows || [])
+    })
+  })
+}
+
+export const insertSupplier = (supplierName) => {
+  return new Promise((resolve, reject) => {
+    let db = conn()
+    let prepare = db.prepare('insert into supplier (supplierName) values (?)')
+    prepare.run(supplierName, (err) => {
+      if (err) reject(err)
+    })
+    prepare.finalize(err => {
+      if (!err) resolve()
+    })
+  })
+}
+export const checkSupplier = (ids) => {
+  let placeholders = ids.map(() => '?').join(',')
+  return new Promise((resolve, reject) => {
+    let db = conn()
+    db.all('select id from purchase where supplierId in (' + placeholders + ')', ids, (err, rows) => {
+      if (err) reject(err)
+      if (rows.length > 0) reject(rows)
+      resolve()
+    })
+  })
+}
+
+export const deleteSupplier = (ids) => {
+  let placeholders = ids.map(() => '?').join(',')
+  return new Promise((resolve, reject) => {
+    let db = conn()
+    let prepare = db.prepare('delete from supplier where id in (' + placeholders + ')')
+    prepare.run(...ids, (err) => {
+      if (err) reject(err)
+    })
+    prepare.finalize(err => {
+      if (!err) resolve()
+    })
+  })
+}
+
+export const updateSupplier = (id, supplierName) => {
+  return new Promise((resolve, reject) => {
+    let db = conn()
+    let prepare = db.prepare('update supplier set supplierName = ? where id = ?')
+    prepare.run(supplierName, id, (err) => {
+      if (err) reject(err)
+    })
+    prepare.finalize(err => {
+      if (!err) resolve()
+    })
+  })
+}
+
+export const getSupplier = (supplierId) => {
+  return new Promise((resolve, reject) => {
+    let db = conn()
+    db.get('select id, supplierName from supplier where id = ?', supplierId, (err, row) => {
+      if (err) reject(err)
+      resolve(row || null)
+    })
+  })
+}
+
+export const queryAllCustomer = () => {
+  return new Promise((resolve, reject) => {
+    let db = conn()
+    db.all('select id, customerName from customer', (err, rows) => {
+      if (err) reject(err)
+      resolve(rows || [])
+    })
+  })
+}
+
+export const insertCustomer = (customerName) => {
+  return new Promise((resolve, reject) => {
+    let db = conn()
+    let prepare = db.prepare('insert into customer (customerName) values (?)')
+    prepare.run(customerName, (err) => {
+      if (err) reject(err)
+    })
+    prepare.finalize(err => {
+      if (!err) resolve()
+    })
+  })
+}
+export const checkCustomer = (ids) => {
+  let placeholders = ids.map(() => '?').join(',')
+  return new Promise((resolve, reject) => {
+    let db = conn()
+    db.all('select id from orders where customerId in (' + placeholders + ')', ids, (err, rows) => {
+      if (err) reject(err)
+      if (rows.length > 0) reject(rows)
+      resolve()
+    })
+  })
+}
+
+export const deleteCustomer = (ids) => {
+  let placeholders = ids.map(() => '?').join(',')
+  return new Promise((resolve, reject) => {
+    let db = conn()
+    let prepare = db.prepare('delete from customer where id in (' + placeholders + ')')
+    prepare.run(...ids, (err) => {
+      if (err) reject(err)
+    })
+    prepare.finalize(err => {
+      if (!err) resolve()
+    })
+  })
+}
+
+export const updateCustomer = (id, customerName) => {
+  return new Promise((resolve, reject) => {
+    let db = conn()
+    let prepare = db.prepare('update customer set customerName = ? where id = ?')
+    prepare.run(customerName, id, (err) => {
+      if (err) reject(err)
+    })
+    prepare.finalize(err => {
+      if (!err) resolve()
+    })
+  })
+}
+
+export const getCustomer = (customerId) => {
+  return new Promise((resolve, reject) => {
+    let db = conn()
+    db.get('select id, customerName from customer where id = ?', customerId, (err, row) => {
+      if (err) reject(err)
+      resolve(row || null)
+    })
+  })
+}
+
 
 export const queryAllUnit = () => {
   return new Promise((resolve, reject) => {

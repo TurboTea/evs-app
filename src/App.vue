@@ -49,6 +49,12 @@
              <a-menu-item key="unitList">
                <router-link to="/unitList">单位</router-link>
              </a-menu-item>
+            <a-menu-item key="supplierList">
+              <router-link to="/supplierList">供应商</router-link>
+            </a-menu-item>
+            <a-menu-item key="customerList">
+              <router-link to="/customerList">客户</router-link>
+            </a-menu-item>
         </a-sub-menu>
       </a-menu>
     </a-layout-header>

@@ -18,8 +18,6 @@ export default {
       products: [],
     };
   },
-  props: {
-  },
   mounted() {
     this.getAllCategoryWithProduct();
   },
@@ -41,7 +39,7 @@ export default {
         let category = null;
         for (let index = 0; index < data.length; index++) {
           let element = data[index];
-          if (element.categoryId != categoryId) {
+          if (element.categoryId !== categoryId) {
             if (category != null) {
               this.products.push(category);
             }
@@ -60,7 +58,7 @@ export default {
           category.children.push(product);
           categoryId = element.categoryId;
 
-          if (index == data.length - 1) {
+          if (index === data.length - 1) {
             this.products.push(category);
           }
         }
