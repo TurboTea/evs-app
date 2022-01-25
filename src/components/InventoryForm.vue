@@ -24,7 +24,7 @@
       <a-input-number id="productTotal" :precision="2" v-model="productTotal" />
       元
     </a-form-item>
-    <a-form-item label="均价" v-if="isPurchase == false">
+    <a-form-item label="均价" v-if="isPurchase === false">
       <a-input-number id="productTotal" :precision="2" v-model="avgPrice" disabled/>
       元
     </a-form-item>
