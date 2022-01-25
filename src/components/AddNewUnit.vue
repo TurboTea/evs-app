@@ -19,7 +19,7 @@
       </a-checkbox>
     </a-form-item>
     <a-form-item :wrapper-col="{ span: 12, offset: 5 }">
-      <a-button type="primary" html-type="submit"> Submit </a-button>
+      <a-button type="primary" html-type="submit"> 提交 </a-button>
     </a-form-item>
   </a-form>
 </template>

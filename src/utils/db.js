@@ -25,7 +25,7 @@ export const initTable = () => {
   return new Promise((resolve) => {
     let db = conn()
     db.serialize(() => {
-      db.run('CREATE TABLE if not exists products (id INTEGER, productName varchar(64) UNIQUE, unitId int,inventory decimal(10,2),inventoryReceived decimal(10,2) DEFAULT 0,inventoryShipped decimal(10,2) DEFAULT 0,total decimal(10,2), PRIMARY KEY(id AUTOINCREMENT))')
+      db.run('CREATE TABLE IF NOT EXISTS products (id INTEGER, productName varchar(64) UNIQUE,productCode varchar(64)  ,unitId int,inventory decimal(10,2),price decimal(10,2) DEFAULT 0, priceSalePreset decimal(10,2) DEFAULT 0, pricePurchaseRefer  decimal(10,2) DEFAULT 0, inventoryReceived decimal(10,2) DEFAULT 0,inventoryShipped decimal(10,2) DEFAULT 0,total decimal(10,2), PRIMARY KEY(id AUTOINCREMENT))')
       db.run('CREATE TABLE IF NOT EXISTS unit (id INTEGER, unitName varchar(64) UNIQUE,decimalAllowed int, PRIMARY KEY(id AUTOINCREMENT))')
       db.run('CREATE TABLE IF NOT EXISTS category ( id	INTEGER, categoryName	varchar(64) UNIQUE, PRIMARY KEY(id AUTOINCREMENT) )')
       db.run('CREATE TABLE IF NOT EXISTS categoryProduct (id INTEGER, categoryId int,productId int, PRIMARY KEY(id AUTOINCREMENT))')
@@ -395,7 +395,7 @@ export const deleteProduct = (ids) => {
 export const queryAllProduct = () => {
   return new Promise((resolve, reject) => {
     let db = conn()
-    db.all('select p.id, p.productName, u.unitName as unit, p.inventory, p.inventoryReceived, p.inventoryShipped, p.total from products as p, unit as u  where u.id = p.unitId', (err, rows) => {
+    db.all('select p.id, p.productName, p.productCode, u.unitName as unit, p.inventory, p.inventoryReceived, p.pricePurchaseRefer , p.priceSalePreset, p.inventoryShipped, p.total from products as p, unit as u  where u.id = p.unitId', (err, rows) => {
       if (err) reject(err)
 
       resolve(rows || [])
@@ -416,7 +416,7 @@ export const queryRelatedCategoryByProductId = (id) => {
 export const queryProduct = (id) => {
   return new Promise((resolve, reject) => {
     let db = conn()
-    db.get('select p.id, p.productName, p.unitId, u.unitName as unit, u.decimalAllowed , p.inventory, p.inventoryReceived, p.inventoryShipped, p.total from products as p, unit as u  where u.id = p.unitId and p.id = ?', id, (err, row) => {
+    db.get('select p.id, p.productName,p.productName, p.unitId, u.unitName as unit, u.decimalAllowed , p.inventory,p.pricePurchaseRefer , p.priceSalePreset, p.inventoryReceived, p.inventoryShipped, p.total from products as p, unit as u  where u.id = p.unitId and p.id = ?', id, (err, row) => {
       if (err) reject(err)
       resolve(row || [])
     })
@@ -426,8 +426,8 @@ export const queryProduct = (id) => {
 export const updateProduct = (formData, id) => {
   return new Promise((resolve, reject) => {
     let db = conn()
-    let prepare = db.prepare('update products set productName = ?, unitId = ?, inventory=?, total=? where id=?')
-    prepare.run(formData.productname, formData.unit, formData.productNumber, formData.productValue, id, (err) => {
+    let prepare = db.prepare('update products set productName = ?, unitId = ?, inventory=?, total=?, productCode=?, pricePurchaseRefer =?, priceSalePreset=?  where id=?')
+    prepare.run(formData.productname, formData.unit, formData.productNumber, formData.productValue,formData.productCode,formData.pricePurchaseRefer ,formData.priceSalePreset, id, (err) => {
       if (err) reject(err)
     })
     prepare.finalize(err => {

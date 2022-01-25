@@ -163,15 +163,24 @@ export default {
           },
         },
         {
+          dataIndex: "productCode",
+          title: "编号",
+          key: "productCode",
+        },
+        {
+          dataIndex: "pricePurchaseRefer ",
+          title: "参考价",
+          key: "pricePurchaseRefer ",
+        },
+        {
+          dataIndex: "priceSalePreset",
+          title: "预设价",
+          key: "priceSalePreset",
+        },
+        {
           dataIndex: "unit",
           title: "单位",
           key: "unit",
-        },
-        {
-          dataIndex: "inventory",
-          title: "库存数量",
-          key: "inventory",
-          sorter: (a, b) => a.id - b.id,
         },
         {
           dataIndex: "total",
