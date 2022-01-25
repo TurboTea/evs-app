@@ -19,10 +19,10 @@ module.exports = {
             }
         })
         config.plugin('html').tap(args => {
-                args[0].title = '最会做鸡的男人'
+                args[0].title = '方正进销存系统'
                 return args
             })
-        
+
     },
     configureWebpack: {
         devServer: {
